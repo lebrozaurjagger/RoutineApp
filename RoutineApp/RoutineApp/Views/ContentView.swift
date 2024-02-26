@@ -8,46 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var locationManager = LocationManager()
+    
     var body: some View {
-        NavigationView {
-            ZStack {
-                VStack {
-                    Rectangle()
-                        .ignoresSafeArea()
-                    Rectangle()
-                        .foregroundColor(Color(.secondarySystemBackground))
-                }
-                
-                ZStack {
-                    VStack {
-                        NavigationView {
-                            List {
-                                ForEach(1...3, id: \.self) { i in
-                                    VStack {
-                                        ListItemView()
-                                    }
-                                }
-                            }
-                        }
-                        .cornerRadius(20)
-                    }
-                }
-                .padding(.top, 200)
-            }
-            
-            .toolbar {
-                ToolbarItemGroup(placement: .bottomBar) {
-                    Spacer()
-                    Button {
-                        withAnimation {
-                            
-                        }
-                    } label: {
-                        Label("", systemImage: "house.fill")
-                    }
+        VStack {
+            if let location = locationManager.location {
+                Text("Your coordinates are: \(location.longitude), \(location.latitude)")
+            } else {
+                if locationManager.isLoading {
+                    LoadingView()
+                } else {
+                    WelcomeView()
+                        .environmentObject(locationManager)
                 }
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 
