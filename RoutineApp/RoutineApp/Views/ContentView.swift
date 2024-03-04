@@ -4,28 +4,41 @@
 //
 //  Created by Phillip on 14.02.2024.
 //
-
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var locationManager = LocationManager()
+    @State var presentSheet = true
     
     var body: some View {
-        VStack {
-            if let location = locationManager.location {
-                Text("Your coordinates are: \(location.longitude), \(location.latitude)")
-            } else {
-                if locationManager.isLoading {
-                    LoadingView()
-                } else {
-                    WelcomeView()
-                        .environmentObject(locationManager)
-                }
+        ZStack(alignment: .leading) {
+            Rectangle()
+                .background(.black)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            VStack(alignment: .leading) {
+                Text("🏔️ Good Morning!")
+                    .font(.title)
+                    .bold()
+                Text("23")
+                    .font(.system(size: 100))
+                    .bold()
+                    .padding(.bottom, 60)
+                Text("1/5")
+                
+                Spacer()
+            }
+            .foregroundColor(.white)
+            .padding()
+            
+            .sheet(isPresented: $presentSheet) {
+                ListVIew()
+                    .presentationDetents([.medium, .large])
+                    .interactiveDismissDisabled()
             }
         }
-        .preferredColorScheme(.dark)
     }
 }
+
+
 
 #Preview {
     ContentView()
