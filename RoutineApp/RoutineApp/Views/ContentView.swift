@@ -4,52 +4,41 @@
 //
 //  Created by Phillip on 14.02.2024.
 //
-
 import SwiftUI
 
 struct ContentView: View {
+    @State var presentSheet = true
+    
     var body: some View {
-        NavigationView {
-            ZStack {
-                VStack {
-                    Rectangle()
-                        .ignoresSafeArea()
-                    Rectangle()
-                        .foregroundColor(Color(.secondarySystemBackground))
-                }
+        ZStack(alignment: .leading) {
+            Rectangle()
+                .background(.black)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            VStack(alignment: .leading) {
+                Text("🏔️ Good Morning!")
+                    .font(.title)
+                    .bold()
+                Text("23")
+                    .font(.system(size: 100))
+                    .bold()
+                    .padding(.bottom, 60)
+                Text("1/5")
                 
-                ZStack {
-                    VStack {
-                        NavigationView {
-                            List {
-                                ForEach(1...3, id: \.self) { i in
-                                    VStack {
-                                        ListItemView()
-                                    }
-                                }
-                            }
-                        }
-                        .cornerRadius(20)
-                    }
-                }
-                .padding(.top, 200)
+                Spacer()
             }
+            .foregroundColor(.white)
+            .padding()
             
-            .toolbar {
-                ToolbarItemGroup(placement: .bottomBar) {
-                    Spacer()
-                    Button {
-                        withAnimation {
-                            
-                        }
-                    } label: {
-                        Label("", systemImage: "house.fill")
-                    }
-                }
+            .sheet(isPresented: $presentSheet) {
+                ListVIew()
+                    .presentationDetents([.medium, .large])
+                    .interactiveDismissDisabled()
             }
         }
     }
 }
+
+
 
 #Preview {
     ContentView()
